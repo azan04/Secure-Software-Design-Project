@@ -1,0 +1,9 @@
+{
+  "columns": {
+    "ssn": {"transform": "mask", "params": {"keep_last": 4}},
+    "email": {"transform": "hmac", "params": {"out_len": 12}},
+    "age": {"transform": "generalize_age", "params": {"bins": [0,18,30,45,65,120]}},
+    "zipcode": {"transform": "hash", "params": {}}
+  },
+  "salt": "somesaltvalue"
+}

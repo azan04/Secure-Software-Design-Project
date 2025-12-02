@@ -1,0 +1,16 @@
+id,name,email,age,salary,department,ssn,phone,address,diagnosis
+1,John Smith,john.smith@email.com,28,55000,Engineering,123-45-6789,555-0101,123 Main St,Diabetes
+2,Emily Johnson,emily.j@email.com,34,72000,Marketing,234-56-7890,555-0102,456 Oak Ave,Hypertension
+3,Michael Brown,mbrown@email.com,45,95000,Engineering,345-67-8901,555-0103,789 Pine Rd,Asthma
+4,Sarah Davis,sarah.d@email.com,29,58000,Sales,456-78-9012,555-0104,321 Elm St,Diabetes
+5,David Wilson,dwilson@email.com,52,110000,Management,567-89-0123,555-0105,654 Maple Dr,Heart Disease
+6,Lisa Anderson,l.anderson@email.com,38,82000,Engineering,678-90-1234,555-0106,987 Cedar Ln,Asthma
+7,James Martinez,jmartinez@email.com,31,65000,Marketing,789-01-2345,555-0107,147 Birch Ct,Hypertension
+8,Jennifer Taylor,jtaylor@email.com,43,88000,Sales,890-12-3456,555-0108,258 Spruce Way,Diabetes
+9,Robert Thomas,rthomas@email.com,36,75000,Engineering,901-23-4567,555-0109,369 Walnut Blvd,Cancer
+10,Maria Garcia,mgarcia@email.com,27,52000,Marketing,012-34-5678,555-0110,741 Ash Pl,Hypertension
+11,William Rodriguez,wrodriguez@email.com,49,98000,Management,112-34-5679,555-0111,852 Fir Ave,Heart Disease
+12,Patricia Martinez,pmartinez@email.com,33,68000,Sales,213-45-6780,555-0112,963 Cherry St,Asthma
+13,Christopher Lee,clee@email.com,41,85000,Engineering,314-56-7891,555-0113,159 Poplar Rd,Diabetes
+14,Linda White,lwhite@email.com,30,62000,Marketing,415-67-8902,555-0114,357 Willow Dr,Cancer
+15,Daniel Harris,dharris@email.com,47,92000,Management,516-78-9013,555-0115,468 Beech Ln,Heart Disease

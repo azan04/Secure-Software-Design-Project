@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - AnonyKit{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-tachometer-alt"></i> Anonymization Dashboard</h2>
+            <p class="text-muted">Welcome, <strong>{{ user.username }}</strong> ({{ role }})</p>
+        </div>
+    </div>
+
+    <!-- Step 1: Upload -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-upload"></i> Step 1: Upload Dataset
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <input type="file" class="form-control" id="fileInput" accept=".csv">
+                    </div>
+                    <button type="button" class="btn btn-primary" id="uploadBtn">
+                        <i class="fas fa-cloud-upload-alt"></i> Upload File
+                    </button>
+                    <div id="uploadStatus" class="mt-3"></div>
+                    
+                    <!-- Data Preview -->
+                    <div id="dataPreview" class="mt-4" style="display: none;">
+                        <h6>Data Preview</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" id="previewTable">
+                                <thead class="table-light"></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 2: Configure -->
+    <div class="row mb-4" id="configSection" style="display: none;">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-cog"></i> Step 2: Configure Anonymization
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="columnConfig"></div>
+                    
+                    <!-- Advanced Options -->
+                    <div class="mt-4">
+                        <h6>Advanced Privacy Options</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="enableKAnonymity">
+                                    <label class="form-check-label" for="enableKAnonymity">
+                                        Enable k-Anonymity
+                                    </label>
+                                </div>
+                                <div id="kAnonymityConfig" style="display: none;">
+                                    <div class="mb-2">
+                                        <label class="form-label">k value:</label>
+                                        <input type="number" class="form-control form-control-sm" 
+                                               id="kValue" value="3" min="2">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Quasi-identifiers:</label>
+                                        <select multiple class="form-control form-control-sm" 
+                                                id="quasiIdentifiers"></select>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label class="form-label">Sensitive attribute:</label>
+                                        <select class="form-control form-control-sm" 
+                                                id="sensitiveAttribute"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="enableLDiversity">
+                                    <label class="form-check-label" for="enableLDiversity">
+                                        Enable l-Diversity
+                                    </label>
+                                </div>
+                                <div id="lDiversityConfig" style="display: none;">
+                                    <div class="mb-2">
+                                        <label class="form-label">l value:</label>
+                                        <input type="number" class="form-control form-control-sm" 
+                                               id="lValue" value="2" min="1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="enableDiffPrivacy">
+                            <label class="form-check-label" for="enableDiffPrivacy">
+                                Enable Differential Privacy
+                            </label>
+                        </div>
+                        <div id="diffPrivacyConfig" style="display: none;" class="mt-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label">Epsilon (privacy budget):</label>
+                                    <input type="number" class="form-control form-control-sm" 
+                                           id="epsilon" value="1.0" step="0.1">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Numeric columns:</label>
+                                    <select multiple class="form-control form-control-sm" 
+                                            id="dpColumns"></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label class="form-label">HMAC Key (optional, for deterministic pseudonymization):</label>
+                        <input type="text" class="form-control" id="hmacKey" 
+                               placeholder="Leave empty if not using HMAC">
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-success btn-lg" id="anonymizeBtn">
+                            <i class="fas fa-shield-alt"></i> Anonymize Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h6 class="mb-0"><i class="fas fa-info-circle"></i> Transform Guide</h6>
+                </div>
+                <div class="card-body">
+                    <small>
+                        <ul class="list-unstyled">
+                            <li><strong>Mask:</strong> Partial visibility (****1234)</li>
+                            <li><strong>Substitute:</strong> Fake realistic data</li>
+                            <li><strong>Shuffle:</strong> Randomize order</li>
+                            <li><strong>Null:</strong> Remove value</li>
+                            <li><strong>Hash:</strong> One-way hashing</li>
+                            <li><strong>HMAC:</strong> Deterministic pseudonym</li>
+                            <li><strong>Generalize Age:</strong> Age ranges</li>
+                            <li><strong>Generalize Numeric:</strong> Reduce precision</li>
+                        </ul>
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Step 3: Results -->
+    <div class="row mb-4" id="resultsSection" style="display: none;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5 class="mb-0">
+                        <i class="fas fa-check-circle"></i> Step 3: Results
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div id="anonymizationStatus"></div>
+                    
+                    <!-- Metrics -->
+                    <div class="row mt-4" id="metricsCards">
+                        <div class="col-md-3">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body text-center">
+                                    <h6>Original Records</h6>
+                                    <h2 id="originalRecords">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body text-center">
+                                    <h6>Anonymized Records</h6>
+                                    <h2 id="anonymizedRecords">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-danger text-white">
+                                <div class="card-body text-center">
+                                    <h6>Suppressed Records</h6>
+                                    <h2 id="suppressedRecords">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body text-center">
+                                    <h6>Privacy Status</h6>
+                                    <h2 id="privacyStatus">-</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                        <div class="col-md-6">
+                            <canvas id="utilityChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Anonymized Data Preview -->
+                    <div class="mt-4">
+                        <h6>Anonymized Data Preview</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-bordered" id="resultsTable">
+                                <thead class="table-light"></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <button type="button" class="btn btn-primary" id="downloadBtn">
+                            <i class="fas fa-download"></i> Download Anonymized Data
+                        </button>
+                        <button type="button" class="btn btn-secondary" id="downloadReportBtn">
+                            <i class="fas fa-file-pdf"></i> Download Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

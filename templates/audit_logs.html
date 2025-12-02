@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Audit Logs - AnonyKit{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-list"></i> Audit Logs</h2>
+            <p class="text-muted">View system activity and security events</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <h5 class="mb-0"><i class="fas fa-filter"></i> Filter Logs</h5>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-sm btn-light" id="refreshLogs">
+                                <i class="fas fa-sync-alt"></i> Refresh
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm" id="logsTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Level</th>
+                                    <th>Event Type</th>
+                                    <th>User</th>
+                                    <th>Success</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+$(document).ready(function() {
+    function loadLogs() {
+        $.get('/api/audit-logs?lines=100', function(data) {
+            const tbody = $('#logsTable tbody');
+            tbody.empty();
+            
+            if (data.logs && data.logs.length > 0) {
+                data.logs.reverse().forEach(log => {
+                    const msg = log.message || {};
+                    const levelBadge = getLevelBadge(log.level);
+                    const successBadge = msg.success ? 
+                        '<span class="badge bg-success">✓</span>' : 
+                        '<span class="badge bg-danger">✗</span>';
+                    
+                    const row = `
+                        <tr>
+                            <td><small>${log.timestamp || 'N/A'}</small></td>
+                            <td>${levelBadge}</td>
+                            <td><code>${msg.event_type || 'N/A'}</code></td>
+                            <td>${msg.user || 'N/A'}</td>
+                            <td>${successBadge}</td>
+                            <td><small>${formatDetails(msg.details)}</small></td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+            } else {
+                tbody.append('<tr><td colspan="6" class="text-center">No logs found</td></tr>');
+            }
+        }).fail(function() {
+            alert('Error loading audit logs');
+        });
+    }
+    
+    function getLevelBadge(level) {
+        const badges = {
+            'INFO': '<span class="badge bg-info">INFO</span>',
+            'WARNING': '<span class="badge bg-warning">WARN</span>',
+            'ERROR': '<span class="badge bg-danger">ERROR</span>',
+            'CRITICAL': '<span class="badge bg-dark">CRIT</span>'
+        };
+        return badges[level] || `<span class="badge bg-secondary">${level}</span>`;
+    }
+    
+    function formatDetails(details) {
+        if (!details) return 'N/A';
+        const keys = Object.keys(details).slice(0, 3);
+        return keys.map(k => `${k}: ${JSON.stringify(details[k]).slice(0, 50)}`).join(', ');
+    }
+    
+    $('#refreshLogs').click(loadLogs);
+    
+    // Load on page load
+    loadLogs();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadLogs, 30000);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,5 @@
+name,email,ssn,age,zipcode
+Alice,alice@example.com,123-45-6789,29,10001
+Bob,bob@example.com,987-65-4321,42,10002
+Carol,carol@example.com,555-11-2222,17,10003
+Dave,dave@example.com,111-22-3333,68,10004

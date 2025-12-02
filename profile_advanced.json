@@ -1,0 +1,25 @@
+{
+  "columns": {
+    "ssn": {
+      "transform": "mask",
+      "params": {"keep_last": 4}
+    },
+    "email": {
+      "transform": "substitute",
+      "params": {"data_type": "email"}
+    },
+    "name": {
+      "transform": "substitute",
+      "params": {"data_type": "name"}
+    },
+    "age": {
+      "transform": "generalize_age",
+      "params": {"bins": [0, 18, 30, 45, 65, 120]}
+    },
+    "zipcode": {
+      "transform": "generalize_numeric",
+      "params": {"precision": 2}
+    }
+  },
+  "salt": "secure_random_salt_2025"
+}

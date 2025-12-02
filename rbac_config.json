@@ -1,0 +1,28 @@
+{
+  "users": {
+    "admin": {
+      "username": "admin",
+      "role": "admin",
+      "password_hash": "ad88f747569004166a27d24db4336c1c:dc9ae8024f0ba01dd5ab76df5a4eb3acadfa787255eb93de8c62202be1222769",
+      "active": true
+    },
+    "data_owner": {
+      "username": "data_owner",
+      "role": "data_owner",
+      "password_hash": "b56a1390b897f76d732aa9851fbb6f51:feb2fdd3a673e0043ac4a0cb7689ddd3cd51c5713447f10144c9cdb3d99aa846",
+      "active": true
+    },
+    "data_analyst": {
+      "username": "data_analyst",
+      "role": "data_analyst",
+      "password_hash": "84730a575b10502698807671579df937:1e3f74525bf668c0c9f9de31368b55e85de76291c69033c96fa6205f8d5aed5d",
+      "active": true
+    },
+    "viewer": {
+      "username": "viewer",
+      "role": "viewer",
+      "password_hash": "ee9925ba95df1c32ce2a6a81367197fa:1149d5ccb1e0099e64792f79ccd80a328a78bbe0d122ed29450c19800f2fa715",
+      "active": true
+    }
+  }
+}

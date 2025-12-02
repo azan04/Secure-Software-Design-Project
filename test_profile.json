@@ -1,0 +1,37 @@
+{
+  "transforms": {
+    "email": {
+      "transform": "mask",
+      "params": {"mask_char": "*"}
+    },
+    "ssn": {
+      "transform": "hmac",
+      "params": {}
+    },
+    "phone": {
+      "transform": "substitute",
+      "params": {}
+    },
+    "address": {
+      "transform": "null",
+      "params": {}
+    },
+    "salary": {
+      "transform": "generalize_numeric",
+      "params": {"bin_size": 20000}
+    },
+    "age": {
+      "transform": "generalize_age",
+      "params": {"bin_size": 10}
+    }
+  },
+  "apply_k_anonymity": true,
+  "k_value": 2,
+  "quasi_identifiers": ["age", "department"],
+  "apply_l_diversity": true,
+  "l_value": 2,
+  "sensitive_attribute": "diagnosis",
+  "apply_differential_privacy": false,
+  "epsilon": 1.0,
+  "dp_columns": []
+}

@@ -1,0 +1,68 @@
+{
+  "timestamp": "2025-11-28T16:21:45.469726",
+  "privacy_metrics": {
+    "k_anonymity": {
+      "k_value": 4,
+      "satisfies_k_anonymity": true,
+      "min_group_size": 4,
+      "max_group_size": 4,
+      "avg_group_size": 4,
+      "num_groups": 1
+    },
+    "reidentification_risk": {
+      "avg_risk": 0.0,
+      "max_risk": 0.0,
+      "records_at_high_risk": 0,
+      "records_at_medium_risk": 0,
+      "records_at_low_risk": 4
+    }
+  },
+  "utility_metrics": {
+    "data_retention": {
+      "original_records": 4,
+      "anonymized_records": 4,
+      "suppressed_records": 0,
+      "retention_rate_pct": 100.0,
+      "suppression_rate_pct": 0.0
+    },
+    "information_loss": {
+      "per_column": {
+        "age": {
+          "original_entropy": 2.0,
+          "anonymized_entropy": 2.0,
+          "information_loss_pct": 0.0
+        },
+        "name": {
+          "original_entropy": 2.0,
+          "anonymized_entropy": 2.0,
+          "information_loss_pct": 0.0
+        },
+        "email": {
+          "original_entropy": 2.0,
+          "anonymized_entropy": 2.0,
+          "information_loss_pct": 0.0
+        },
+        "zipcode": {
+          "original_entropy": 2.0,
+          "anonymized_entropy": 2.0,
+          "information_loss_pct": 0.0
+        },
+        "ssn": {
+          "original_entropy": 2.0,
+          "anonymized_entropy": 2.0,
+          "information_loss_pct": 0.0
+        }
+      },
+      "avg_information_loss_pct": 0.0,
+      "columns_analyzed": 5
+    }
+  },
+  "summary": {
+    "privacy_requirements_met": true,
+    "k_anonymity_satisfied": true,
+    "l_diversity_satisfied": true,
+    "data_retention_pct": 100.0,
+    "avg_reidentification_risk": 0.0,
+    "recommendation": "All privacy requirements met with acceptable utility. Dataset is ready for sharing."
+  }
+}
