@@ -47,8 +47,8 @@ A comprehensive data anonymization system implementing industry-standard privacy
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/anonykit.git
-cd anonykit
+git clone https://github.com/azan04/Secure-Software-Design-Project.git
+cd Secure-Software-Design-Project
 
 # Create virtual environment
 python -m venv .venv
